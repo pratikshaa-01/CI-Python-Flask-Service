@@ -1,37 +1,36 @@
-# Python Flask Docker Application
-
+Python Flask Docker Application
 This project is a simple Python Flask application packaged as a Docker container. It includes a Dockerfile, CI/CD configuration using AWS CodePipeline, and basic Flask application code.
 
-## Project Structure
-├── Dockerfile ├── appspec.yml ├── buildspec.yml ├── requirements.txt ├── python-app.py ├── scripts │ ├── start_container.sh │ └── stop_container.sh
+Project Structure
+├── Dockerfile
+├── appspec.yml
+├── buildspec.yml
+├── requirements.txt
+├── python-app.py
+├── start_container.sh
+└── stop_container.sh
 
+Getting Started
+Prerequisites
+- Docker: Ensure Docker is installed on your machine.
+- Python: Version 3.8 or 3.11 is required.
+- AWS CLI: Required for CI/CD setup.
 
-## Getting Started
+Installation
+Clone the repository:
+git clone <repository-url>
+cd <repository-directory>
 
-### Prerequisites
+Build the Docker image:
+docker build -t python-flask-app .
 
-- **Docker**: Ensure Docker is installed on your machine.
-- **Python**: Version 3.8 or 3.11 is required.
-- **AWS CLI**: Required for CI/CD setup.
+Run the Docker container:
+docker run -p 8000:8000 python-flask-app
 
-### Installation
+Usage
+Open your browser and navigate to http://localhost:8000/ to see the application running. You should see the message "Hello, world!".
 
-1. **Clone the repository**:
-
-   ```bash
-   git clone <repository-url>
-   cd <repository-directory>
-2. **Build the Docker image**:
-   docker build -t python-flask-app .
-3. **Run the Docker container**:
-   docker run -p 5000:5000 python-flask-app
-
-
-**Usage**
-Open your browser and navigate to http://localhost:5000/ to see the application running. You should see the message "Hello, world!".
-
-
-**CI/CD Configuration**
+CI/CD Configuration
 This project includes AWS CodePipeline configuration for continuous integration and deployment.
 
 appspec.yml
@@ -40,17 +39,22 @@ Defines the deployment process, specifying hooks for stopping and starting the D
 buildspec.yml
 Contains build instructions for AWS CodeBuild, including installing dependencies, building the Docker image, and pushing it to the Docker registry.
 
-
-**Scripts**
+Scripts
 start_container.sh
 This script pulls the Docker image from the Docker registry and runs it.
+```bash
+#!/bin/bash
+set -e
 
-stop_container.sh
-This script stops the running Docker container.
+echo "Starting the Docker container..."
+docker run -d -p 8000:8000 python-flask-app
 
+stop_container.sh This script stops the running Docker container.
+#!/bin/bash
+set -e
 
-**Dockerfile**
-**requirements.txt**
-**python-app.py**
+echo "Stopping the Docker container..."
+docker stop $(docker ps -q --filter "ancestor=python-flask-app")
+
 
 
